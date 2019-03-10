@@ -1,0 +1,22 @@
+@import 'bootstrap.scss';
+@import 'variables.scss';
+@import 'extensions.scss';
+@import 'global.scss';
+
+.App {
+  background-color: transparent;
+  font-family: Helvetica, Arial, sans-serif;
+
+  .page-head {
+    background-color: #fff;
+  }
+
+  .page-body {
+    background-color: #fff;
+    padding: 0;
+  }
+
+  .page-foot {
+
+  }
+}

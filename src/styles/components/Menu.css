@@ -1,0 +1,19 @@
+.menu-container .menu {
+  color: #999; }
+  .menu-container .menu ul {
+    margin: 0;
+    padding: 0; }
+    .menu-container .menu ul li {
+      list-style-type: none;
+      position: relative; }
+    .menu-container .menu ul > li {
+      display: inline-block; }
+      .menu-container .menu ul > li > a {
+        display: inline-block;
+        color: inherit;
+        line-height: 3.5rem;
+        font-weight: 700; }
+        .menu-container .menu ul > li > a:hover {
+          text-decoration: none; }
+    .menu-container .menu ul li + li {
+      padding-left: 1.5rem; }

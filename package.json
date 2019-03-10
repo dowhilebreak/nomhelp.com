@@ -3,11 +3,28 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "bootstrap": "^4.3.1",
+    "fraction.js": "^4.0.12",
+    "mathjs": "^5.6.0",
     "react": "^16.8.3",
+    "react-bootstrap": "^1.0.0-beta.5",
     "react-dom": "^16.8.3",
-    "react-scripts": "2.1.5"
+    "react-redux": "^6.0.1",
+    "react-scripts": "2.1.5",
+    "redux": "^4.0.1",
+    "typescript": "^3.3.3333"
+  },
+  "devDependencies": {
+    "node-sass-chokidar": "^1.3.4",
+    "npm-run-all": "^4.1.5",
+    "react-test-renderer": "^16.8.4"
   },
   "scripts": {
+    "build-amalgam-css": "node-sass-chokidar src/styles/index.scss -o public/ --source-map=public/",
+    "watch-amalgam-css": "chokidar src/styles/**/*.scss -c \"npm run build-amalgam-css\" --initial",
+    "multi-build-css": "npm-run-all -p build-amalgam-css build-css",
+    "build-css": "node-sass-chokidar src/ -o src/",
+    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

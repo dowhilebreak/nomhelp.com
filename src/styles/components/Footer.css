@@ -1,0 +1,9 @@
+.footer-container {
+  font-family: Helvetica, Arial, sans-serif;
+  color: #555;
+  padding: 2rem 0 0 1rem; }
+  @media (max-width: 767.98px) {
+    .footer-container > .row > .col-sm-12 + .col-sm-12 {
+      margin-top: 2rem;
+      border-top: 1px solid #999;
+      padding-top: 2.5rem; } }

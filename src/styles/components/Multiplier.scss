@@ -1,0 +1,71 @@
+@import '../mixins';
+
+.multiplier-container {
+  padding-bottom: 3rem;
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Monda', Helvetica, Arial, sans-serif;
+  }
+
+  .form-wrapper {
+    padding: 2rem 0 4rem 0;
+
+    textarea[name='recipe'] {
+      display: block;
+      height: auto;
+      min-height: 10rem;
+    }
+
+    label {
+      display: block;
+    }
+
+    .options-container {
+      font-size: 1.125rem;
+
+      .form-check {
+        padding-left: 0;
+      }
+
+      .custom-multiplier {
+        display: inline-block;
+        width: 4rem;
+      }
+    }
+  }
+
+  .converted-recipe-text {
+    padding: 1rem;
+    min-height: 12rem;
+    height: auto;
+
+    .recipe-line {
+      & + .recipe-line {
+        margin-top: .5rem;
+      }
+    }
+  }
+
+  .conversions-container {
+    .optimized-measurements-container {
+      font-size: .9rem;
+
+      .conversion-item {
+        & + .conversion-item {
+          margin-top: .5rem;
+        }
+      }
+    }
+  }
+
+  @include media-breakpoint-down(sm) {
+    .conversions-container {
+      padding-top: 2.5rem;
+
+      .optimized-measurements-container {
+        font-size: 1rem;
+      }
+    }
+  }
+
+}
