@@ -1,2 +1,6 @@
 @import './variables';
 @import "../../node_modules/bootstrap/scss/mixins";
+
+%decorator-font-face {
+  font-family: 'Monda', Helvetica, Arial, sans-serif;
+}

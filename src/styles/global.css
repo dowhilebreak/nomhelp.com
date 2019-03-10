@@ -1,5 +1,6 @@
 body {
-  background-color: #eee;
+  background-color: #222;
+  color: #fff;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
   body h3 {

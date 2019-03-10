@@ -2,10 +2,19 @@
 
 .footer-container {
   font-family: Helvetica, Arial, sans-serif;
-  color: #555;
-  padding: 2rem 0 0 1rem;
+  color: #bbb;
+  padding: 3rem 0 0 1rem;
+  border-top: 2px solid #555;
 
-  @include media-breakpoint-down(sm) {
+  a, a:active, a:visited, a:hover {
+    color: #ff6600;
+  }
+
+  h5 {
+    color: #ddd;
+  }
+
+  @include media-breakpoint-down(md) {
     > .row > .col-sm-12 + .col-sm-12 {
       margin-top: 2rem;
       border-top: 1px solid #999;

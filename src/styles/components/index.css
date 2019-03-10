@@ -1,11 +1,19 @@
 .header-container .logo-container {
   padding: 1.5rem 0 1rem 0; }
 
+.multiplier-container h1, .multiplier-container h2, .multiplier-container h3, .multiplier-container h4, .multiplier-container h5, .multiplier-container h6 {
+  font-family: 'Monda', Helvetica, Arial, sans-serif; }
+
 .footer-container {
   font-family: Helvetica, Arial, sans-serif;
-  color: #555;
-  padding: 2rem 0 0 1rem; }
-  @media (max-width: 767.98px) {
+  color: #bbb;
+  padding: 3rem 0 0 1rem;
+  border-top: 2px solid #555; }
+  .footer-container a, .footer-container a:active, .footer-container a:visited, .footer-container a:hover {
+    color: #ff6600; }
+  .footer-container h5 {
+    color: #ddd; }
+  @media (max-width: 991.98px) {
     .footer-container > .row > .col-sm-12 + .col-sm-12 {
       margin-top: 2rem;
       border-top: 1px solid #999;
@@ -31,10 +39,11 @@
     .menu-container .menu ul li + li {
       padding-left: 1.5rem; }
 
+.multiplier-container h1, .multiplier-container h2, .multiplier-container h3, .multiplier-container h4, .multiplier-container h5, .multiplier-container h6 {
+  font-family: 'Monda', Helvetica, Arial, sans-serif; }
+
 .multiplier-container {
   padding-bottom: 3rem; }
-  .multiplier-container h1, .multiplier-container h2, .multiplier-container h3, .multiplier-container h4, .multiplier-container h5, .multiplier-container h6 {
-    font-family: 'Monda', Helvetica, Arial, sans-serif; }
   .multiplier-container .form-wrapper {
     padding: 2rem 0 4rem 0; }
     .multiplier-container .form-wrapper textarea[name='recipe'] {
@@ -68,7 +77,7 @@
 
 .subheader-container {
   padding: 1rem 2rem;
-  background-color: #000;
+  background-color: #222;
   color: #fff; }
   .subheader-container ul {
     margin: 0 auto; }

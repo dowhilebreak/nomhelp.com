@@ -1,5 +1,5 @@
+@import 'variables';
 @import 'bootstrap.scss';
-@import 'variables.scss';
 @import 'extensions.scss';
 @import 'global.scss';
 
@@ -9,10 +9,12 @@
 
   .page-head {
     background-color: #fff;
+    color: $primary-dark;
   }
 
   .page-body {
     background-color: #fff;
+    color: $primary-dark;
     padding: 0;
   }
 

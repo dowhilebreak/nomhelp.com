@@ -1,7 +1,8 @@
+.multiplier-container h1, .multiplier-container h2, .multiplier-container h3, .multiplier-container h4, .multiplier-container h5, .multiplier-container h6 {
+  font-family: 'Monda', Helvetica, Arial, sans-serif; }
+
 .multiplier-container {
   padding-bottom: 3rem; }
-  .multiplier-container h1, .multiplier-container h2, .multiplier-container h3, .multiplier-container h4, .multiplier-container h5, .multiplier-container h6 {
-    font-family: 'Monda', Helvetica, Arial, sans-serif; }
   .multiplier-container .form-wrapper {
     padding: 2rem 0 4rem 0; }
     .multiplier-container .form-wrapper textarea[name='recipe'] {
