@@ -1,0 +1,24 @@
+.banner-container h3 {
+  font-family: 'Monda', Helvetica, Arial, sans-serif; }
+
+.banner-container {
+  padding: 0;
+  background-color: #777;
+  background-size: cover;
+  color: #fff;
+  font-size: 1.25rem; }
+  .banner-container > .row {
+    background-color: rgba(50, 50, 50, 0.75); }
+    .banner-container > .row .content-container {
+      color: #000;
+      padding-top: 2rem;
+      padding-bottom: 2rem;
+      background-color: rgba(255, 255, 255, 0.7); }
+  .banner-container h3 {
+    margin: 0 0 2rem 0; }
+  .banner-container.offset-layout > .row .offset-wrapper {
+    padding-top: 20rem;
+    padding-bottom: 0rem; }
+  @media (max-width: 767.98px) {
+    .banner-container > .row .content-container {
+      padding: 2.5rem; } }
