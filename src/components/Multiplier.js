@@ -356,9 +356,9 @@ class Multiplier extends Component {
                             <div className="col-md-8 col-sm-12">
                                 <div className="converted-recipe-text form-control wd-100">
                                 {
-                                    this.state.converted_recipe.map((o) => {
+                                    this.state.converted_recipe.map((o, i) => {
                                         return (
-                                            <div className="recipe-line">{o}</div>
+                                            <div className="recipe-line" key={i}>{o}</div>
                                         )
                                     })
                                 }
@@ -368,9 +368,9 @@ class Multiplier extends Component {
                                 <h5>Conversions:</h5>
                                 <div className="optimized-measurements-container">
                                     {
-                                        this.state.ingredient_calculations.map((o) => {
+                                        this.state.ingredient_calculations.map((o, i) => {
                                             return (
-                                                <div className="conversion-item col-md-12">{o.base_result} = {o.optimized_measurements.join(' + ')}</div>
+                                                <div className="conversion-item col-md-12" key={i}>{o.base_result} = {o.optimized_measurements.join(' + ')}</div>
                                             )
                                         })
                                     }
