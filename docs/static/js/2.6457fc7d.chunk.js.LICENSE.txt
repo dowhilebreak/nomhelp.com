@@ -5,21 +5,21 @@ object-assign
 */
 
 /**
- * @license Complex.js v2.0.11 11/02/2016
+ * @license Complex.js v2.0.15 12/05/2020
  *
- * Copyright (c) 2016, Robert Eisele (robert@xarg.org)
+ * Copyright (c) 2020, Robert Eisele (robert@xarg.org)
  * Dual licensed under the MIT or GPL Version 2 licenses.
  **/
 
 /**
- * @license Fraction.js v4.0.12 09/09/2015
- * http://www.xarg.org/2014/03/rational-numbers-in-javascript/
+ * @license Fraction.js v4.1.2 23/05/2021
+ * https://www.xarg.org/2014/03/rational-numbers-in-javascript/
  *
- * Copyright (c) 2015, Robert Eisele (robert@xarg.org)
+ * Copyright (c) 2021, Robert Eisele (robert@xarg.org)
  * Dual licensed under the MIT or GPL Version 2 licenses.
  **/
 
-/** @license React v0.19.1
+/** @license React v0.20.2
  * scheduler.production.min.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
@@ -28,7 +28,7 @@ object-assign
  * LICENSE file in the root directory of this source tree.
  */
 
-/** @license React v16.14.0
+/** @license React v17.0.2
  * react-dom.production.min.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
@@ -37,7 +37,7 @@ object-assign
  * LICENSE file in the root directory of this source tree.
  */
 
-/** @license React v16.14.0
+/** @license React v17.0.2
  * react-jsx-runtime.production.min.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
@@ -46,7 +46,7 @@ object-assign
  * LICENSE file in the root directory of this source tree.
  */
 
-/** @license React v16.14.0
+/** @license React v17.0.2
  * react.production.min.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
