@@ -40,6 +40,11 @@ const Translations = {
             gt: .641,
             eq: 2/3,
             lt: .691
+        },
+        '3/4': {
+            gt: .725,
+            eq: .75,
+            lt: .775
         }
     },
 

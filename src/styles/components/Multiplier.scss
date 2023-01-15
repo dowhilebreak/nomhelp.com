@@ -43,6 +43,13 @@
       & + .recipe-line {
         margin-top: .5rem;
       }
+
+      .transformed-chunk {
+        .original-value {
+          color: #ccc;
+          font-size: .75rem;
+        }
+      }
     }
   }
 

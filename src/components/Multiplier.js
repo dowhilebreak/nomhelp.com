@@ -14,6 +14,7 @@ class Multiplier extends Component {
             formraw_recipe: '',
             formraw_multiplier: 1,
             formraw_multiplier_custom: '',
+            formraw_target_measurement_system: 'us_base',
             converted_recipe: [],
             ingredient_calculations: [],
             option_auto_calculate: true,
@@ -21,8 +22,14 @@ class Multiplier extends Component {
             feature_optimized_measurements: true
         };
 
-        let baseRegexText = '((([0-9]*\\.?[0-9]+)|([0-9]*\\s*?[' + Translations.vulgarFractionUnicodeSet + '])|([0-9]*\\s+[1-9][0-9]*?\\/[1-9][0-9]*?))[\\s]*?';
-        let ingredientRegexText = baseRegexText + '\\b(' + Measurements.identifiers.map((el) => { return el[0];} ).join('|') + ')\\b)'; //(\s+|\r?\n|$)
+        let fractionRegex = '((?:([0-9]+\\s+)?[1-9][0-9]*?\\/[1-9][0-9]*?)';
+        let vulgarFractionRegex = '([0-9]*\\s*?[' + Translations.vulgarFractionUnicodeSet + '])';
+        let decimalRegex = '([0-9]*\\.?[0-9]+)'
+
+        let baseRegexText = '(' + fractionRegex + '|' + vulgarFractionRegex + '|' + decimalRegex + ')[\\s]*?';
+
+        window.Measurements = Measurements;
+        let ingredientRegexText = baseRegexText + '\\b(' + Measurements.getIdentifiersRegex(this.getLocalization()) + ')\\b)'; //(\s+|\r?\n|$)
         this.ingredientRegex = new RegExp(ingredientRegexText, 'igm');
 
         this.handleChange = this.handleChange.bind(this);
@@ -37,6 +44,10 @@ class Multiplier extends Component {
      */
     getLocalization() {
         return this.state.localization;
+    }
+
+    getTargetMeasurementSystem() {
+        return this.state.formraw_target_measurement_system || 'us_base';
     }
 
     /**
@@ -72,6 +83,8 @@ class Multiplier extends Component {
                 }
             }
             */
+        } else if (event.target.name === 'target_measurement_system') {
+
         }
 
         o[key] = input_value;
@@ -165,6 +178,9 @@ class Multiplier extends Component {
             out = math.fraction(parseInt(first) + decimal);
         } else {
             out = math.fraction(raw); /* Whole numbers can still be expressed as fractions and this makes future calculations easier */
+            if(raw.includes('3/4')) {
+            console.log('parseNumericalInput out value:', out);
+            }
         }
 
         return out;
@@ -183,6 +199,7 @@ class Multiplier extends Component {
         exploded_input.forEach((el,i) => {
             let x;
             while((x = component.ingredientRegex.exec(el)) !== null) {
+                console.log('Component regex output:', x);
                 let quantity = component.parseNumericalInput(x[2].trim());
                 let last_index = component.ingredientRegex.lastIndex;
                 let vals = [i, x[1], quantity, x[6], [last_index - x[0].length, last_index]];
@@ -191,7 +208,7 @@ class Multiplier extends Component {
         });
 
         let base_calculations = this.generateBaseCalculations(ingredients);
-        let converted_recipe = this.generateConvertedRecipeText(exploded_input, base_calculations);
+        let converted_recipe = this.generateTransformedRecipe(exploded_input, base_calculations);
 
         this.setState({
             ingredient_calculations: base_calculations,
@@ -208,29 +225,48 @@ class Multiplier extends Component {
     generateBaseCalculations(ingredients) {
         let component = this;
         let multiplier = this.getMultiplier();
+        let system = this.getTargetMeasurementSystem();
         return ingredients.map((el) => {
-            let measurement_name = null;
-            for(var i = 0; i < Measurements.identifiers.length; i++) {
-                let m =  Measurements.identifiers[i];
-                let regex = new RegExp(m[0], 'gi');
+            let measurement = null;
+            let measurement_keys = Object.keys(Measurements.all);
+            for(let key in measurement_keys){
+                let m =  Measurements.all[measurement_keys[key]]; /* TODO: internationalize */
+                let regex = new RegExp(m.identifiers.en_us.join('|'), 'gi');
+                let result = regex.exec(el[3]);
+                if(result && result[0] === el[3]) {
+                    measurement = m;
+                    break;
+                }
+            }
+
+            if (measurement == null) {
+               console.error('no measurement found!');
+            }
+            /*
+            for(var i = 0; i < Object.keys(Measurements.all).length; i++) {
+                let m =  Measurements.all[i].identifiers.en_us;
+                let regex = new RegExp(m.map((el) => { return el[0];}).join('|'), 'gi');
                 let result = regex.exec(el[3]);
                 if(result && result[0] === el[3]) {
                     measurement_name = m[1];
                     break;
                 }
             }
+             */
 
-            let measurement_config = Measurements.all[measurement_name];
-            let base_calculation = el[2].mul(measurement_config.conversions.us_base);
+            let base_calculation = el[2].mul(measurement.conversions[system]);
             let multiplied_base = base_calculation.mul(multiplier);
-            let label = Measurements.all[Measurements.baseMeasurements[measurement_config.type].us_base].label[component.getLocalization()][multiplied_base > 1 ? 'plural' : 'single'];
-            let optimized = component.hasFeature('optimized_measurements') ? component.getOptimizedMeasurements(measurement_name, multiplied_base) : null;
+            let label = Measurements.baseMeasurements[measurement.type][system].label[component.getLocalization()][multiplied_base > 1 ? 'plural' : 'single'];
+            let optimized = component.hasFeature('optimized_measurements') ? component.getOptimizedMeasurements(measurement, multiplied_base) : null;
 
             //return [el[0], multiplied_base.toFraction(true) + " " + label, optimized, el[4]];
 
+            let translated_quantity = ( system === 'si_base' ) ? multiplied_base.round() : multiplied_base.round(3).toFraction(true);
+
             return {
                 input_line: el[0],
-                base_result: multiplied_base.toFraction(true) + " " + label,
+                base_result: translated_quantity + " " + label,
+                original_text: el[1],
                 optimized_measurements: optimized,
                 text_indices: el[4]
             };
@@ -249,12 +285,46 @@ class Multiplier extends Component {
             let out = line;
             let filtered = base_calculations.filter((o) => { return o.input_line === i; }).reverse();
             filtered.forEach((ingredient) => {
+                console.log('Result row:', ingredient);
                 let replacement = ingredient.base_result;
-                out = Utilities.spliceString(out, ingredient.text_indices[0], ingredient.text_indices[1], replacement);
+                let original = ingredient.original_text;
+                /* TODO: Fails because I'm trying to add markup to the output and JSX can't be substringed in Utilities */
+                out = Utilities.spliceString(out, ingredient.text_indices[0], ingredient.text_indices[1], replacement, original);
             });
             return out;
         });
     }
+
+
+    generateTransformedRecipe(exploded_input, base_calculations) {
+        let lines = [];
+        exploded_input.forEach((line, i) => {
+            let filtered = base_calculations.filter((o) => { return o.input_line === i; }).reverse();
+            let reserve = line;
+            let chunks = [];
+            let element = (
+                <div className={"wrapper"}>
+                {
+                    filtered.forEach((ingredient) => {
+                        console.log('Result row:', ingredient);
+                        let replacement = ingredient.base_result;
+                        let original = ingredient.original_text;
+                        let tail = reserve.substring(ingredient.text_indices[1]);
+                        chunks.push(Utilities.createRecipeLine(replacement, original, tail));
+                        reserve = line.substring(0, ingredient.text_indices[0]);
+                    })
+                }
+                    {reserve}
+                    {chunks.reverse()}
+                </div>
+            );
+            lines.push(element);
+        });
+        return lines;
+    }
+
+
+
 
     /**
      * Recursively crawls the measurement tree/hierarchy to create an optimized sequence
@@ -265,19 +335,21 @@ class Multiplier extends Component {
      * @returns {Array}
      */
     getOptimizedMeasurements(measurement, quantity, findings = []) {
-        let measure = Measurements.all[measurement];
-        let up_measure = Measurements.all[measure.up];
-
-        if(up_measure && quantity >= up_measure.conversions.us_base) {
+        let measure = Utilities.isString(measurement) ? Measurements.all[measurement] : measurement;
+        let system = this.getTargetMeasurementSystem();
+        if(measure.up && quantity >= measure.up.conversions[system]) {
             findings = this.getOptimizedMeasurements(measure.up, quantity, findings);
         } else {
-            let units = quantity.div(measure.conversions.us_base);
-            let remainder = units.mod(1).mul(measure.conversions.us_base);
-            if(units.floor() > 0) {
-                findings.push(units.floor() + " " + measure.label[this.getLocalization()][units.floor() > 1 ? 'plural' : 'single']);
+            let units = quantity.div(measure.conversions[system]);
+            let remainder = units.mod(1).mul(measure.conversions[system]);
+            if(units.floor() > 0 || !measure.down) {
+                let value = !measure.down ? units.round(3) : units.floor();
+                findings.push(value + " " + measure.label[this.getLocalization()][units.floor() > 1 ? 'plural' : 'single']);
             }
             if(measure.down && remainder && remainder.n > 0) {
                 findings = this.getOptimizedMeasurements(measure.down, remainder, findings);
+            } else if (!measure.down) {
+                console.error('Encountered measurement without a down value:', measurement, quantity, findings);
             }
         }
 
@@ -349,7 +421,7 @@ class Multiplier extends Component {
                         </div>
                         <div className="row">
                             <div className="col-md-8">
-                                <h3>Here's your converted recipe:</h3>
+                                <h3>Here it is using <select name="target_measurement_system" onChange={this.handleChange}><option name="us" value="us_base" selected={this.state.formraw_target_measurement_system === 'us_base'}>US Customary</option><option name="si" value="si_base" selected={this.state.formraw_target_measurement_system === 'si_base'}>International (Metric)</option></select> measurements:</h3>
                             </div>
                         </div>
                         <div className="row">

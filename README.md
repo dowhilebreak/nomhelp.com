@@ -24,7 +24,7 @@ This is a demo React site containing a US measurements -> Fluid Ounces/Pounds ca
 This project requires Node, NPM, React and Sass...
 
 Node can be dowloaded from the project's homepage: 
-https://nodejs.org/en/ (the site was built against Node 11.10.1).
+https://nodejs.org/en/ (the site was built against Node 18.13.0).
 
 Navigate to the folder where you forked the project and run:
 
